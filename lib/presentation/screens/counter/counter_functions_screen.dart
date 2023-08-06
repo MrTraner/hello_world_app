@@ -17,12 +17,12 @@ class _CounterFunctionsScreenState extends State<CounterFunctionsScreen> {
         title: const Text('Counter Functions'),
         actions: [
           IconButton(
-              icon: const Icon(Icons.refresh_rounded),
-              onPressed: () {
-                setState(() {
-                  clickCounter = 0;
-                });
-              })
+            icon: const Icon(Icons.refresh_rounded),
+            onPressed: () {
+              clickCounter = 0;
+              setState(() {});
+            }
+          )
         ]
       ),
       body: Center(
@@ -31,8 +31,7 @@ class _CounterFunctionsScreenState extends State<CounterFunctionsScreen> {
           children: [
             Text(
               '$clickCounter',
-              style:
-                  const TextStyle(fontSize: 160, fontWeight: FontWeight.w100)
+              style: const TextStyle(fontSize: 160, fontWeight: FontWeight.w100)
             ),
             Text(
               //clickCounter == 1 ? 'Click' : 'Clicks',
@@ -45,25 +44,53 @@ class _CounterFunctionsScreenState extends State<CounterFunctionsScreen> {
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          FloatingActionButton(
-            shape: const StadiumBorder(),
+          CustomButton(
+            icon: Icons.refresh_rounded,
+            onPressed: () {
+              clickCounter = 0;
+              setState(() {});
+            },
+          ),
+          const SizedBox(height: 20),
+          CustomButton(
+            icon: Icons.plus_one,
             onPressed: () {
               clickCounter++;
               setState(() {});
             },
-            child: const Icon(Icons.plus_one)
           ),
           const SizedBox(height: 20),
-          FloatingActionButton(
-            shape: const StadiumBorder(),
+          CustomButton(
+            icon: Icons.exposure_minus_1_outlined,
             onPressed: () {
+              if (clickCounter == 0) return;
               clickCounter--;
               setState(() {});
             },
-            child: const Icon(Icons.exposure_minus_1_outlined)
           )
         ]
       )
+    );
+  }
+}
+
+class CustomButton extends StatelessWidget {
+  final IconData icon;
+  final VoidCallback? onPressed;
+
+  const CustomButton({
+    super.key,
+    required this.icon,
+    this.onPressed
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+        enableFeedback: true,
+        shape: const StadiumBorder(),
+        onPressed: onPressed,
+        child: Icon(icon)
     );
   }
 }
